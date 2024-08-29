@@ -5,7 +5,7 @@ using VictorKrogh.Data;
 namespace Microsoft.AspNetCore;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-public sealed class UnitOfWorkAttribute : Attribute
+public sealed class UnitOfWorkAttribute : Attribute, IActionFilter
 {
     private IUnitOfWork? UnitOfWork { get; set; }
 
