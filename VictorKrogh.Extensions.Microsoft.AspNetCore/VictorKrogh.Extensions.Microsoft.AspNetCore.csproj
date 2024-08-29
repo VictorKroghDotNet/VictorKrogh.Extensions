@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>Microsoft.AspNetCore</RootNamespace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
+		<BuildNumber Condition="'$(BuildNumber)' == ''">0</BuildNumber>
+		<PackageVersion>8.0.$(BuildNumber)-dev-build</PackageVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<BuildNumber Condition="'$(BuildNumber)' == ''">0</BuildNumber>
+		<PackageVersion>8.0.$(BuildNumber)</PackageVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="VictorKrogh.Data.Abstractions" Version="8.0.5" />
+	</ItemGroup>
+
+</Project>
