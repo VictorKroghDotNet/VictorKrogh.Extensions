@@ -1,0 +1,66 @@
+name: Build and publish
+
+on:
+  push:
+    branches: [ main ]
+
+env: 
+  configuration: Release
+  output_path: "output"
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+        - uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+
+        - name: Setup .NET
+          uses: actions/setup-dotnet@v3
+          with:
+            dotnet-version: 8.0.1xx
+
+        - name: Setup output directory
+          run: mkdir -p ${{ env.output_path }}
+
+        - name: Add Github Package Registry
+          run: dotnet nuget add source --username "VictorKroghDotNet" --password ${{ secrets.TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/VictorKroghDotNet/index.json"
+
+        - name: Pack "VictorKrogh.Extensions.Microsoft.AspNetCore"
+          run: dotnet pack "VictorKrogh.Extensions.Microsoft.AspNetCore.csproj" --configuration ${{ env.configuration }} --output "${{ github.workspace}}/${{ env.output_path }}" -p:BuildNumber="${{ github.run_number }}"
+          working-directory: "VictorKrogh.Extensions.Microsoft.AspNetCore"
+      
+        - name: Upload Build Artifact
+          uses: actions/upload-artifact@v2
+          with:
+            name: Artifacts
+            path: "output/*.nupkg"
+            
+    publish:
+        runs-on: ubuntu-latest
+        needs: build
+
+        steps:
+            - name: Download NuGet Package Artifact
+              uses: actions/download-artifact@v3.0.2
+              with:
+                name: Artifacts
+                path: artifact
+  
+            - name: Prep packages
+              run: dotnet nuget add source --username "VictorKroghDotNet" --password ${{ secrets.TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/VictorKroghDotNet/index.json"
+
+            - name: Publish to Github Package Registry
+              run: dotnet nuget push "artifact/*.nupkg" --source "github" --api-key ${TOKEN} --skip-duplicate
+              env:
+                TOKEN: ${{ secrets.TOKEN }}
+          
+            - name: Create Release
+              uses: "marvinpinto/action-automatic-releases@latest"
+              with:
+                repo_token: "${{ secrets.TOKEN }}"
+                automatic_release_tag: "8.0.${{ github.run_number }}"
+                prerelease: false
+                files: "artifact/*"
