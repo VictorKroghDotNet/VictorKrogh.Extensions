@@ -18,9 +18,9 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<PackageId>VictorKrogh.Services</PackageId>
+		<PackageId>VictorKrogh.Extensions.Microsoft.AspNetCore</PackageId>
 		<RepositoryType>git</RepositoryType>
-		<PackageProjectUrl>https://github.com/VictorKroghDotNet/VictorKrogh.Services</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/VictorKroghDotNet/VictorKrogh.Extensions</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 	</PropertyGroup>
