@@ -8,21 +8,31 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
-		<BuildNumber Condition="'$(BuildNumber)' == ''">0</BuildNumber>
-		<PackageVersion>8.0.$(BuildNumber)-dev-build</PackageVersion>
+		<Version Condition="'$(Version)' == ''">0</Version>
+		<PackageVersion>$(Version)-dev-build</PackageVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
-		<BuildNumber Condition="'$(BuildNumber)' == ''">0</BuildNumber>
-		<PackageVersion>8.0.$(BuildNumber)</PackageVersion>
+		<Version Condition="'$(Version)' == ''">0</Version>
+		<PackageVersion>$(Version)</PackageVersion>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<PackageId>VictorKrogh.Services</PackageId>
+		<RepositoryType>git</RepositoryType>
+		<PackageProjectUrl>https://github.com/VictorKroghDotNet/VictorKrogh.Services</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+		<None Include="..\README.md" Pack="true" PackagePath="\" />
+		<None Include="..\LICENSE.txt" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="VictorKrogh.Data.Abstractions" Version="8.0.5" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+		<PackageReference Include="VictorKrogh.Data.Abstractions" Version="8.0.0.1" />
 	</ItemGroup>
 
 </Project>
